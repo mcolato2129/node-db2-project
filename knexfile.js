@@ -1,7 +1,7 @@
 // no need to change this file
 const sharedConfig = {
   client: 'sqlite3',
-  useNullAsDefault: true,
+  useNullAsDefault: true, //specifically this line is for sqlite
   migrations: {
     directory: './data/migrations',
   },
