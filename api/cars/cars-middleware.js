@@ -3,13 +3,12 @@ const db = require('./cars-model')
 
 const checkCarId = async (req, res, next) => {
   try{
-    const cars = await db.getAll(req.params.id);
-    
-    if(!cars){
-        res.status(400).json({message: "no cars found"})
+    const car = await db.getById(req.params.id);
+    if(!car){
+        res.status(400).json({message: "not found"})
     }else {
-        req.cars = cars
-        next()
+        req.car = car;
+        next();
     }
 
 }catch(err){
