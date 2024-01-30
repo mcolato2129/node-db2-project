@@ -21,13 +21,13 @@ const checkCarPayload = (req, res, next) => {
     status: 404,
     message:  'vin is missing'
   })
-  if(!req.body.name) return next({
-    status: 400,
-    message:  'name is missing'
-  })
   if(!req.body.make) return next({
     status: 400,
     message:  'make is missing'
+  })
+  if(!req.body.model) return next({
+    status: 400,
+    message:  'model is missing'
   })
   if(!req.body.mileage) return next({
     status: 400,
@@ -44,8 +44,17 @@ const checkVinNumberValid = (req, res, next) => {
   }
 } 
 
-const checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+const checkVinNumberUnique = async (req, res, next) => {
+  try{
+  const existing = await db.getByVin(req.body.vin)
+  if(!existing){
+    next()
+  } else{
+    next({status: 400, message: `vin ${req.body.vin} already exists`})
+  }
+  }catch(err){
+    next(err)
+  }
 }
 
 module.exports = {
