@@ -5,7 +5,7 @@ const checkCarId = async (req, res, next) => {
   try{
     const car = await db.getById(req.params.id);
     if(!car){
-        res.status(400).json({message: "not found"})
+        res.status(404).json({message: "id not found"}) 
     }else {
         req.car = car;
         next();
@@ -18,7 +18,7 @@ const checkCarId = async (req, res, next) => {
 
 const checkCarPayload = (req, res, next) => {
   if(!req.body.vin) return next({
-    status: 404,
+    status: 400,
     message:  'vin is missing'
   })
   if(!req.body.make) return next({
